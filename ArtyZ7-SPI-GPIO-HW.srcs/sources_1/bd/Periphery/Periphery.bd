@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xAB5FAB6D286ECD1B",
+      "boundary_crc": "0x8AAAD5F47B487D92",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../ArtyZ7-SPI-GPIO-HW.gen/sources_1/bd/Periphery",
       "name": "Periphery",
@@ -14,7 +14,8 @@
       "processing_system7_0": "",
       "axi_gpio_0": "",
       "axi_smc": "",
-      "rst_ps7_0_100M": ""
+      "rst_ps7_0_100M": "",
+      "axi_gpio_1": ""
     },
     "interface_ports": {
       "DDR": {
@@ -239,6 +240,31 @@
           "SCL_T": {
             "physical_name": "IIC_scl_t",
             "direction": "O"
+          }
+        }
+      },
+      "shield_dp0_dp13": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:gpio:1.0",
+        "vlnv": "xilinx.com:interface:gpio_rtl:1.0",
+        "port_maps": {
+          "TRI_I": {
+            "physical_name": "shield_dp0_dp13_tri_i",
+            "direction": "I",
+            "left": "13",
+            "right": "0"
+          },
+          "TRI_O": {
+            "physical_name": "shield_dp0_dp13_tri_o",
+            "direction": "O",
+            "left": "13",
+            "right": "0"
+          },
+          "TRI_T": {
+            "physical_name": "shield_dp0_dp13_tri_t",
+            "direction": "O",
+            "left": "13",
+            "right": "0"
           }
         }
       }
@@ -1439,7 +1465,7 @@
             "value": "200"
           },
           "PCW_PERIPHERAL_BOARD_PRESET": {
-            "value": "None"
+            "value": "part0"
           },
           "PCW_PJTAG_PERIPHERAL_ENABLE": {
             "value": "0"
@@ -2126,6 +2152,9 @@
         "xci_path": "ip\\Periphery_axi_smc_0\\Periphery_axi_smc_0.xci",
         "inst_hier_path": "axi_smc",
         "parameters": {
+          "NUM_MI": {
+            "value": "2"
+          },
           "NUM_SI": {
             "value": "1"
           }
@@ -2144,10 +2173,36 @@
               }
             },
             "bridges": [
-              "M00_AXI"
+              "M00_AXI",
+              "M01_AXI"
             ]
           },
           "M00_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "NUM_READ_OUTSTANDING": {
+                "value": "8"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "8"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M01_AXI": {
             "mode": "Master",
             "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
@@ -2180,6 +2235,24 @@
         "xci_name": "Periphery_rst_ps7_0_100M_0",
         "xci_path": "ip\\Periphery_rst_ps7_0_100M_0\\Periphery_rst_ps7_0_100M_0.xci",
         "inst_hier_path": "rst_ps7_0_100M"
+      },
+      "axi_gpio_1": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "ip_revision": "35",
+        "xci_name": "Periphery_axi_gpio_1_0",
+        "xci_path": "ip\\Periphery_axi_gpio_1_0\\Periphery_axi_gpio_1_0.xci",
+        "inst_hier_path": "axi_gpio_1",
+        "parameters": {
+          "C_INTERRUPT_PRESENT": {
+            "value": "0"
+          },
+          "GPIO_BOARD_INTERFACE": {
+            "value": "shield_dp0_dp13"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -2195,10 +2268,22 @@
           "axi_gpio_0/GPIO2"
         ]
       },
+      "axi_gpio_1_GPIO": {
+        "interface_ports": [
+          "shield_dp0_dp13",
+          "axi_gpio_1/GPIO"
+        ]
+      },
       "axi_smc_M00_AXI": {
         "interface_ports": [
           "axi_smc/M00_AXI",
           "axi_gpio_0/S_AXI"
+        ]
+      },
+      "axi_smc_M01_AXI": {
+        "interface_ports": [
+          "axi_smc/M01_AXI",
+          "axi_gpio_1/S_AXI"
         ]
       },
       "processing_system7_0_DDR": {
@@ -2245,7 +2330,8 @@
           "processing_system7_0/M_AXI_GP0_ACLK",
           "axi_smc/aclk",
           "axi_gpio_0/s_axi_aclk",
-          "rst_ps7_0_100M/slowest_sync_clk"
+          "rst_ps7_0_100M/slowest_sync_clk",
+          "axi_gpio_1/s_axi_aclk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -2276,7 +2362,8 @@
         "ports": [
           "rst_ps7_0_100M/peripheral_aresetn",
           "axi_gpio_0/s_axi_aresetn",
-          "axi_smc/aresetn"
+          "axi_smc/aresetn",
+          "axi_gpio_1/s_axi_aresetn"
         ]
       }
     },
@@ -2288,6 +2375,11 @@
               "SEG_axi_gpio_0_Reg": {
                 "address_block": "/axi_gpio_0/S_AXI/Reg",
                 "offset": "0x41200000",
+                "range": "64K"
+              },
+              "SEG_axi_gpio_1_Reg": {
+                "address_block": "/axi_gpio_1/S_AXI/Reg",
+                "offset": "0x41210000",
                 "range": "64K"
               }
             }
