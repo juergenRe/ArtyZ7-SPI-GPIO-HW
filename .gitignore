@@ -4,3 +4,4 @@
 *.gen/
 *.hw/
 *.runs/
+*.ip_user_files/
