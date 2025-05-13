@@ -1,0 +1,6 @@
+# Adapting to new Vivado workflow
+
+*.cache/
+*.gen/
+*.hw/
+*.runs/
